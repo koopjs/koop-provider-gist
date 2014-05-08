@@ -11,18 +11,18 @@ var Controller = extend({
 
   find: function(req, res){
     var _send = function( err, data ){
-      var len = data.length;
-      var allTopojson = [];
-      var processTopojson = function( topology ){
-        allTopojson.push(topology);
-        if ( allTopojson.length == len ) {
-          res.json( allTopojson );
-        }
-      };
-
       if ( err ){
         res.json( err, 500 );
       } else { 
+        var len = data.length;
+        var allTopojson = [];
+        var processTopojson = function( topology ){
+          allTopojson.push(topology);
+          if ( allTopojson.length == len ) {
+            res.json( allTopojson );
+          }
+        };
+
         if ( data ){
           if (req.query.topojson ){
             var allData = {};

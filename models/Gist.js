@@ -6,27 +6,31 @@ exports.find = function( id, options, callback ){
   Cache.get( type, id, options, function(err, entry ){
     if ( err ){
       Geohub.gist( { id: id, token: config.github_token }, function( err, geojson ){
-        if ( !geojson.length ){
-          geojson = [ geojson ];
-        }
-
-        var _totalLayer = geojson.length,
-          finalJson = [];
-        // local method to collect layers and send them all
-        var _send = function(data){
-          finalJson.push(data);
-          if ( finalJson.length == _totalLayer ) {
-            callback(null, finalJson);
+        if (err){
+          callback('Error accessing this Gist. Please check the content of the Gist and try again. The file may be too large to access.', null);
+        } else {
+          if ( !geojson.length ){
+            geojson = [ geojson ];
           }
-        };
+    
+          var _totalLayer = geojson.length,
+            finalJson = [];
+          // local method to collect layers and send them all
+          var _send = function(data){
+            finalJson.push(data);
+            if ( finalJson.length == _totalLayer ) {
+              callback(null, finalJson);
+            }
+          };
 
-        geojson.forEach(function(layer, i){
-          Cache.insert( type, id, layer, i, function( err, success){
-            if ( success ) {
-              _send(layer);
-            } 
+          geojson.forEach(function(layer, i){
+            Cache.insert( type, id, layer, i, function( err, success){
+              if ( success ) {
+                _send(layer);
+              } 
+            });
           });
-        });
+        }
       });
     } else {
       callback( null, entry );
