@@ -7,7 +7,7 @@ exports.find = function( id, options, callback ){
     if ( err ){
       Geohub.gist( { id: id, token: config.github_token }, function( err, geojson ){
         if (err){
-          callback('Error accessing this Gist. Please check the content of the Gist and try again. The file may be too large to access.', null);
+          callback(err, null);
         } else {
           if ( !geojson.length ){
             geojson = [ geojson ];
