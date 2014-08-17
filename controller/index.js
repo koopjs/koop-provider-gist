@@ -2,14 +2,17 @@ var extend = require('node.extend'),
   fs = require('fs'),
   crypto = require('crypto');
 
+var Controller = function( koop ){
 
-var Controller = extend({
+  // must include the Model and pass it the Koop instance 
+  // This is crucial for DB access 
+  this.Gist = Gist = new require('../models/Gist.js')( koop );
 
-  index: function(req, res){
+  this.index = function(req, res){
     res.render(__dirname + '/../views/index');
-  },
+  };
 
-  find: function(req, res){
+  this.find = function(req, res){
     var _send = function( err, data ){
       if ( err ){
         res.json( err, 500 );
@@ -27,7 +30,7 @@ var Controller = extend({
           if (req.query.topojson ){
             var allData = {};
             data.forEach(function( d ){
-              Topojson.convert(d, function(err, topology){
+              koop.Topojson.convert(d, function(err, topology){
                 processTopojson( topology );
               });
               //allData[d.name] = d;
@@ -48,7 +51,7 @@ var Controller = extend({
             if (fs.existsSync( fileName )){
               res.sendfile( fileName );
             } else {
-              Exporter.exportToFormat( req.params.format, key, key, data[0], {}, function(err, file){
+              koop.exporter.exportToFormat( req.params.format, key, key, data[0], {}, function(err, file){
                 if (err){
                   res.send(err, 500);
                 } else {
@@ -79,27 +82,29 @@ var Controller = extend({
     } else {
       res.send('Must specify a user and gist id', 404);
     }
-  },
+  };
 
-  featureservice: function(req, res){
+  this.featureservice = function(req, res){
     var callback = req.query.callback;
     delete req.query.callback;
 
     if ( req.params.id ){
       var id = req.params.id;
       Gist.find( id, req.query, function( err, data) {
-        Controller._processFeatureServer( req, res, err, data, callback);
+        koop.Controller._processFeatureServer( req, res, err, data, callback);
       });
     } else {
       res.send('Must specify a gist id', 404);
     }
 
-  },
+  };
 
-  preview: function(req, res){
+  this.preview = function(req, res){
     res.render(__dirname + '/../views/demo', { locals:{ id: req.params.id } });
   }
 
-}, BaseController);
+  return this;
+
+};
 
 module.exports = Controller;

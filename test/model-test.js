@@ -1,8 +1,6 @@
 var should = require('should'),
   config = require('config'),
-  koopserver = require('koop-server')(config);
-
-global.config = config;
+  koop = require('koop-server/lib');
 
 var repo = 'geodata',
   user = 'chelm',
@@ -10,7 +8,10 @@ var repo = 'geodata',
   key = [repo, user, file].join('/');
 
 before(function (done) {
-  global['Gist'] = require('../models/Gist.js');
+  koop.Cache.db = koop.PostGIS.connect( config.db.postgis.conn );
+  var data_dir = __dirname + '/output/';
+  koop.Cache.data_dir = data_dir;
+  Gist = new require('../models/Gist.js')( koop );
   done();
 });
 
@@ -19,7 +20,7 @@ describe('Github Model', function(){
     describe('when caching a github file', function(){
        before(function(done ){
         // connect the cache
-        Cache.db = PostGIS.connect( config.db.postgis.conn );
+        //Cache.db = PostGIS.connect( config.db.postgis.conn );
         done();
       });
 

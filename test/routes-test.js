@@ -3,11 +3,10 @@ var should = require('should'),
   config = require('config'),
   koop = require('koop-server')(config);
 
-global.config = config;
-
 before(function (done) {
-    Cache.db = PostGIS.connect( config.db.postgis.conn );
-    try { koop.register(require("../index.js")); } catch(e){ console.log('wtf', e) }
+    //Cache.db = PostGIS.connect( config.db.postgis.conn );
+    controller = require('../controller/index.js')( koop );
+    try { koop.register(require("../index.js")); } catch(e){ console.log(e); }
     done();
 });
 
