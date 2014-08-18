@@ -1,9 +1,15 @@
 var Geohub = require('geohub'),
+  _ = require('lodash'),
+  BaseModel = require('koop-server/lib/BaseModel.js'),
   config = require('./config');
 
-var Gist = function( koop ){
+function Gist( koop ){
 
-  this.find = function( id, options, callback ){
+  var gist = {};
+
+  gist.__proto__ = BaseModel( koop );
+
+  gist.find = function find( id, options, callback ){
     // looks for data in the cache first
     var type = 'Gist';
     koop.Cache.get( type, id, options, function(err, entry ){
@@ -27,7 +33,7 @@ var Gist = function( koop ){
             };
   
             geojson.forEach(function(layer, i){
-              koop.Cache.insert( type, id, layer, i, function( err, success){
+              this.koop.Cache.insert( type, id, layer, i, function( err, success){
                 if ( success ) {
                   _send(layer);
                 } 
@@ -43,7 +49,7 @@ var Gist = function( koop ){
   
   // compares the updated_at timestamp on the cached data and the hosted data
   // this method name is special reserved name that will get called by the cache model
-  this.checkCache = function(id, data, options, callback){
+  gist.checkCache = function checkCache(id, data, options, callback){
     var json = data;
     Geohub.gistSha(id, config.token, function(err, sha){
       if ( sha == json[0].updated_at ){
@@ -56,16 +62,8 @@ var Gist = function( koop ){
     });
   };
 
-  this.topojsonConvert = function(data, callback){
-    koop.Topojson.convert( data, callback);
-  };
-
-  this.exportToFormat = function(format, dir, key, data, options, callback){
-    koop.exporter.exportToFormat( format, dir, key, data, options, callback);
-  };
-
-  return this;
-
+  return gist;
 };
+
 
 module.exports = Gist;
