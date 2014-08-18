@@ -56,6 +56,14 @@ var Gist = function( koop ){
     });
   };
 
+  this.topojsonConvert = function(data, callback){
+    koop.Topojson.convert( data, callback);
+  };
+
+  this.exportToFormat = function(format, dir, key, data, options, callback){
+    koop.exporter.exportToFormat( format, dir, key, data, options, callback);
+  };
+
   return this;
 
 };

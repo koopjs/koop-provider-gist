@@ -1,12 +1,9 @@
 var extend = require('node.extend'),
   fs = require('fs'),
+  BaseController = require('koop-server/lib/Controller.js'),
   crypto = require('crypto');
 
-var Controller = function( koop ){
-
-  // must include the Model and pass it the Koop instance 
-  // This is crucial for DB access 
-  this.Gist = Gist = new require('../models/Gist.js')( koop );
+var GistController = function( Gist ){
 
   this.index = function(req, res){
     res.render(__dirname + '/../views/index');
@@ -30,14 +27,10 @@ var Controller = function( koop ){
           if (req.query.topojson ){
             var allData = {};
             data.forEach(function( d ){
-              koop.Topojson.convert(d, function(err, topology){
+              Gist.topojsonConvert(d, function(err, topology){
                 processTopojson( topology );
               });
-              //allData[d.name] = d;
             });    
-            //Topojson.convert(allData, function(err, topology){
-             // res.json( topology );  
-            //});
           } else if ( req.params.format ) {
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json');
@@ -51,7 +44,7 @@ var Controller = function( koop ){
             if (fs.existsSync( fileName )){
               res.sendfile( fileName );
             } else {
-              koop.exporter.exportToFormat( req.params.format, key, key, data[0], {}, function(err, file){
+              Gist.exportToFormat( req.params.format, key, key, data[0], {}, function(err, file){
                 if (err){
                   res.send(err, 500);
                 } else {
@@ -91,7 +84,7 @@ var Controller = function( koop ){
     if ( req.params.id ){
       var id = req.params.id;
       Gist.find( id, req.query, function( err, data) {
-        koop.Controller._processFeatureServer( req, res, err, data, callback);
+        BaseController._processFeatureServer( req, res, err, data, callback);
       });
     } else {
       res.send('Must specify a gist id', 404);
@@ -107,4 +100,4 @@ var Controller = function( koop ){
 
 };
 
-module.exports = Controller;
+module.exports = GistController;
