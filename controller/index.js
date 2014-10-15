@@ -1,5 +1,4 @@
-var extend = require('node.extend'),
-  fs = require('fs'),
+var fs = require('fs'),
   BaseController = require('koop-server/lib/BaseController.js'),
   crypto = require('crypto');
 
