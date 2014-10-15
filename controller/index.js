@@ -36,7 +36,7 @@ var Controller = function( Gist ){
             });    
           } else if ( req.params.format ) {
             if ( !Gist.files.localDir ){
-              res.send('No local file system configured.', 501);
+              res.send('No local file system configured for exports', 501);
               return;
             }
             // change geojson to json
@@ -46,19 +46,26 @@ var Controller = function( Gist ){
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
-            var fileName = [Gist.files.localDir + 'files', dir, key + '.' + req.params.format].join('/');
+            var path = ['files', dir].join('/');
+            var fileName = key + '.' + req.params.format;
 
-            if (fs.existsSync( fileName )){
-              res.sendfile( fileName );
-            } else {
-              Gist.exportToFormat( req.params.format, key, key, data[0], {}, function(err, file){
-                if (err){
-                  res.send(err, 500);
+            Gist.files.exists(path, fileName, function( exists, path ){
+              if ( exists ){
+                if (path.substr(0, 4) == 'http'){
+                  res.redirect( path );
                 } else {
-                  res.sendfile( file );
+                  res.sendfile( path );
                 }
-              });
-            }
+              } else {
+                Gist.exportToFormat( req.params.format, dir, key, data[0], {}, function(err, file){
+                  if (err){
+                    res.send(err, 500);
+                  } else {
+                    res.sendfile( file );
+                  }
+                });
+              }
+            });
           } else { 
             res.json( data );
           }
