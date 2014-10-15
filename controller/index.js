@@ -1,15 +1,18 @@
 var extend = require('node.extend'),
   fs = require('fs'),
-  BaseController = require('koop-server/lib/Controller.js'),
+  BaseController = require('koop-server/lib/BaseController.js'),
   crypto = require('crypto');
 
-var GistController = function( Gist ){
+var Controller = function( Gist ){
 
-  this.index = function(req, res){
+  var controller = {};
+  controller.__proto__ = BaseController(); 
+
+  controller.index = function(req, res){
     res.render(__dirname + '/../views/index');
   };
 
-  this.find = function(req, res){
+  controller.find = function(req, res){
     var _send = function( err, data ){
       if ( err ){
         res.json( err, 500 );
@@ -32,6 +35,10 @@ var GistController = function( Gist ){
               });
             });    
           } else if ( req.params.format ) {
+            if ( !Gist.files.localDir ){
+              res.send('No local file system configured.', 501);
+              return;
+            }
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json');
             var dir = ['gist', req.params.id ].join(':');
@@ -39,7 +46,7 @@ var GistController = function( Gist ){
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
-            var fileName = [sails.config.data_dir + 'files', dir, key + '.' + req.params.format].join('/');
+            var fileName = [Gist.files.localDir + 'files', dir, key + '.' + req.params.format].join('/');
 
             if (fs.existsSync( fileName )){
               res.sendfile( fileName );
@@ -77,14 +84,14 @@ var GistController = function( Gist ){
     }
   };
 
-  this.featureservice = function(req, res){
+  controller.featureservice = function(req, res){
     var callback = req.query.callback;
     delete req.query.callback;
 
     if ( req.params.id ){
       var id = req.params.id;
       Gist.find( id, req.query, function( err, data) {
-        BaseController._processFeatureServer( req, res, err, data, callback);
+        controller.processFeatureServer( req, res, err, data, callback);
       });
     } else {
       res.send('Must specify a gist id', 404);
@@ -92,12 +99,12 @@ var GistController = function( Gist ){
 
   };
 
-  this.preview = function(req, res){
+  controller.preview = function(req, res){
     res.render(__dirname + '/../views/demo', { locals:{ id: req.params.id } });
   }
 
-  return this;
+  return controller;
 
 };
 
-module.exports = GistController;
+module.exports = Controller;
