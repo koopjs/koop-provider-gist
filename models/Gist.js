@@ -1,5 +1,4 @@
 var Geohub = require('geohub'),
-  _ = require('lodash'),
   BaseModel = require('koop-server/lib/BaseModel.js'),
   config = require('./config');
 
