@@ -3,7 +3,7 @@
 `koop-gist` is an input source provider for the [Koop](https://github.com/esri/koop) server. It can connect to GitHub repositories serving GeoJSON as well as Gists which are then output in other formats such as GeoServices (FeatureServices), CSV, KML, or Shapefile.
 
 
-## To install
+## To install Koop
 
 Source providers such as `koop-github` require that you first install koop:
 
@@ -12,13 +12,17 @@ git clone git@github.com:Esri/koop.git
 cd koop
 npm install 
 # copy and edit the config file
-cp config/default.yml.example config/default.yml
+cp config/default.json.example config/default.json
 ```
+Note that you'll need to have setup a PostGIS database and provide the connection string in the koop config.json.
 
-you can then install `koop-github`. 
+## Now install `koop-gist`. 
 
 ```bash
 npm install https://github.com/chelm/koop-gist/tarball/master
+
+# copy the gist config file and add your github token 
+cp config/config.js.example config/config.js
 
 # start the koop server
 node server.js 

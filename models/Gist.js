@@ -1,6 +1,12 @@
 var Geohub = require('geohub'),
-  BaseModel = require('koop-server/lib/BaseModel.js'),
+  BaseModel = require('koop-server/lib/BaseModel.js');
+
+var config = {};
+try {
   config = require('./config');
+} catch(e){
+  console.log('No config file found for koop-gist. Please copy the models/config.js.example to models/config.js.');
+}
 
 function Gist( koop ){
 
@@ -32,7 +38,7 @@ function Gist( koop ){
             };
   
             geojson.forEach(function(layer, i){
-              this.koop.Cache.insert( type, id, layer, i, function( err, success){
+              koop.Cache.insert( type, id, layer, i, function( err, success){
                 if ( success ) {
                   _send(layer);
                 } 
