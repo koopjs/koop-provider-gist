@@ -5,7 +5,7 @@ var config = {};
 try {
   config = require('./config');
 } catch(e){
-  console.log('No config file found for koop-gist. Please copy the models/config.js.example to models/config.js.');
+  console.warn('No config file found for koop-gist. Please copy the models/config.js.example to models/config.js.');
 }
 
 function Gist( koop ){
