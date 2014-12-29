@@ -10,7 +10,6 @@
     "test": "mocha test/ -t 5000"
   },
   "dependencies": {
-    "koop-server": "~0.1.1",
     "geohub": "0.3.2",
     "config": "~0.4.35",
     "ejs": "~1.0.0"
@@ -19,6 +18,7 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "supertest": "~0.11.0",
-    "should": "~3.3.1"
+    "should": "~3.3.1",
+    "koop": "~1.0.0"
   }
 }

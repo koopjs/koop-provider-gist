@@ -1,25 +1,21 @@
-var Geohub = require('geohub'),
-  BaseModel = require('koop-server/lib/BaseModel.js');
-
-var config = {};
-try {
-  config = require('./config');
-} catch(e){
-  console.warn('No config file found for koop-gist. Please copy the models/config.js.example to models/config.js.');
-}
+var Geohub = require('geohub');
 
 function Gist( koop ){
 
+  if ( !koop.config.ghtoken ){
+    console.warn('No Github Token in config. This may cause problems accessing data.');
+  }
+
   var gist = {};
 
-  gist.__proto__ = BaseModel( koop );
+  gist.__proto__ = koop.BaseModel( koop );
 
   gist.find = function find( id, options, callback ){
     // looks for data in the cache first
     var type = 'Gist';
     koop.Cache.get( type, id, options, function(err, entry ){
       if ( err ){
-        Geohub.gist( { id: id, token: config.token }, function( err, geojson ){
+        Geohub.gist( { id: id, token: koop.config.ghtoken }, function( err, geojson ){
           if (err){
             callback(err, null);
           } else {
@@ -56,11 +52,11 @@ function Gist( koop ){
   // this method name is special reserved name that will get called by the cache model
   gist.checkCache = function checkCache(id, data, options, callback){
     var json = data;
-    Geohub.gistSha(id, config.token, function(err, sha){
+    Geohub.gistSha(id, koop.config.ghtoken, function(err, sha){
       if ( sha == json[0].updated_at ){
         callback(null, false);
       } else {
-        Geohub.gist( { id: id, token: config.token }, function( err, geojson ){
+        Geohub.gist( { id: id, token: koop.config.ghtoken }, function( err, geojson ){
           callback(null, geojson);  
         });
       }

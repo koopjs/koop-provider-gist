@@ -1,8 +1,7 @@
 var fs = require('fs'),
-  BaseController = require('koop-server/lib/BaseController.js'),
   crypto = require('crypto');
 
-var Controller = function( Gist ){
+var Controller = function( Gist, BaseController ){
 
   var controller = {};
   controller.__proto__ = BaseController(); 
