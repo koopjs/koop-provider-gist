@@ -1,6 +1,6 @@
 {
   "name": "koop-gist",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A gist wrapper for koop ",
   "main": "index.js",
   "directories": {
@@ -20,5 +20,9 @@
     "supertest": "~0.11.0",
     "should": "~3.3.1",
     "koop": "~1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:chelm/koop-gist.git"
   }
 }
