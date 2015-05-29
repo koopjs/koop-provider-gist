@@ -19,7 +19,7 @@ Note that you'll need to have setup a PostGIS database and provide the connectio
 ## Now install `koop-gist`. 
 
 ```bash
-npm install https://github.com/chelm/koop-gist/tarball/master
+npm install https://github.com/koopjs/koop-gist/tarball/master
 
 # copy the gist config file and add your github token 
 cp config/config.js.example config/config.js
