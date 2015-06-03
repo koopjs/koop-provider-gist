@@ -7,5 +7,5 @@ module.exports = {
   'get /gist/raw/:id': 'find',
   'get /gist/raw/:id/:layer': 'find',
   'get /gist': 'index',
-  'get /gist/:id/preview' : 'preview'
+  'get /gist/:id/preview': 'preview'
 }
