@@ -1,7 +1,6 @@
 var should = require('should'),
   request = require('supertest'),
-  config = require('config'),
-  koop = require('koop')(config),
+  koop = require('koop')({}),
   kooplib = require('koop/lib');
 
 before(function(done){

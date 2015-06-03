@@ -1,5 +1,4 @@
 var should = require('should'),
-  config = require('config'),
   koop = require('koop/lib');
 
 var repo = 'geodata',
