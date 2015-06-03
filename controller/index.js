@@ -4,7 +4,10 @@ var fs = require('fs'),
 var Controller = function( Gist, BaseController ){
 
   var controller = {};
-  controller.__proto__ = BaseController(); 
+
+  if (BaseController) {
+    controller.__proto__ = BaseController();
+  };
 
   controller.index = function(req, res){
     res.render(__dirname + '/../views/index');
@@ -14,7 +17,7 @@ var Controller = function( Gist, BaseController ){
     var _send = function( err, data ){
       if ( err ){
         res.json( err, 500 );
-      } else { 
+      } else {
         var len = data.length;
         var allTopojson = [];
         var processTopojson = function( topology ){
@@ -31,7 +34,7 @@ var Controller = function( Gist, BaseController ){
               Gist.topojsonConvert(d, function(err, topology){
                 processTopojson( topology );
               });
-            });    
+            });
           } else if ( req.params.format ) {
             if ( !Gist.files.localDir ){
               res.send('No local file system configured for exports', 501);
@@ -40,7 +43,7 @@ var Controller = function( Gist, BaseController ){
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json');
             var dir = ['gist', req.params.id ].join(':');
-            // build the file key as an MD5 hash that's a join on the paams and look for the file 
+            // build the file key as an MD5 hash that's a join on the paams and look for the file
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
@@ -64,7 +67,7 @@ var Controller = function( Gist, BaseController ){
                 });
               }
             });
-          } else { 
+          } else {
             res.json( data );
           }
         } else {
@@ -72,6 +75,7 @@ var Controller = function( Gist, BaseController ){
         }
       }
     };
+
     if ( req.params.id ){
       var id = req.params.id;
       var d = {};
@@ -101,7 +105,6 @@ var Controller = function( Gist, BaseController ){
     } else {
       res.send('Must specify a gist id', 404);
     }
-
   };
 
   controller.preview = function(req, res){
@@ -109,7 +112,6 @@ var Controller = function( Gist, BaseController ){
   }
 
   return controller;
-
 };
 
 module.exports = Controller;
