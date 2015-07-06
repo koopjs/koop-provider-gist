@@ -1,11 +1,14 @@
 # koop-gist
 
+> Gist provider for [Koop](https://github.com/esri/koop)
+
 [![npm][npm-image]][npm-url]
+[![travis][travis-image]][travis-url]
 
 [npm-image]: https://img.shields.io/npm/v/koop-gist.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/koop-gist
-
-Gist provider for [Koop](https://github.com/esri/koop).
+[travis-image]: https://img.shields.io/travis/koopjs/koop-gist.svg?style=flat-square
+[travis-url]: https://travis-ci.org/koopjs/koop-gist
 
 Take GeoJSON from a Github [gist](https://help.github.com/articles/about-gists/) and serve it as an ArcGIS Feature Service, CSV, KML, or Shapefile.
 
@@ -50,6 +53,10 @@ Once `koop-gist` is registered as provider and you've restarted your Koop server
 so for example:
 
 `/gist/6178185/preview`
+
+## Contributing
+
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/Esri/contributing).
 
 ## License
 
