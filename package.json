@@ -1,7 +1,7 @@
 {
   "name": "koop-gist",
   "description": "Github gist provider for Koop",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "author": "Chris Helm",
   "bugs": {
     "url": "https://github.com/koopjs/koop-gist/issues"

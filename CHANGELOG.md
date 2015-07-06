@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [1.0.0] - 2015-07-06
 
 ### Added
 * Now checking build status with Travis-CI
@@ -16,3 +16,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Reverted to leaflet CDN to fix broken `leaflet.css` link
 
 ## 0.0.2 - 2014-12-30
+
+[1.0.0]: https://github.com/koopjs/koop-gist/compare/v0.0.2...v1.0.0
