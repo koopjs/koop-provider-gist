@@ -10,13 +10,14 @@ var Controller = function (Gist, BaseController) {
   controller.find = function (req, res) {
     if (!req.params.id) return res.send('Must specify a user and gist id', 404)
 
-    var _send = function (err, data) {
+    function _send (err, data) {
       if (err) return res.json(err, 500)
       if (!data) return res.send('There a problem accessing this gist', 500)
 
       var len = data.length
       var allTopojson = []
-      var processTopojson = function (topology) {
+
+      function processTopojson (topology) {
         allTopojson.push(topology)
         if (allTopojson.length === len) {
           res.json(allTopojson)
@@ -37,7 +38,7 @@ var Controller = function (Gist, BaseController) {
         req.params.format = req.params.format.replace('geojson', 'json')
         var dir = ['gist', req.params.id ].join(':')
 
-        // build the file key as an MD5 hash that's a join on the paams and look for the file
+        // build the file key as an MD5 hash that's a join on the params and look for the file
         var toHash = JSON.stringify(req.params) + JSON.stringify(req.query)
         var key = crypto.createHash('md5').update(toHash).digest('hex')
 
