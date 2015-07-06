@@ -1,4 +1,8 @@
-exports.name = 'Gist'
-exports.controller = require('./controller')
-exports.routes = require('./routes')
-exports.model = require('./models/Gist.js')
+var provider = {
+  name: 'Gist',
+  model: require('./models/Gist.js'),
+  controller: require('./controller'),
+  routes: require('./routes')
+}
+
+module.exports = provider

@@ -6,10 +6,10 @@ var koop = require('koop')({})
 var kooplib = require('koop/lib')
 
 before(function (done) {
-  var Provider = require('../index.js')
-  var model = new Provider.model(kooplib) // eslint-disable-line
-  var controller = new Provider.controller(model, kooplib.BaseController) // eslint-disable-line
-  koop._bindRoutes(Provider.routes, controller)
+  var provider = require('../index.js')
+  var model = new provider.model(kooplib) // eslint-disable-line
+  var controller = new provider.controller(model, kooplib.BaseController) // eslint-disable-line
+  koop._bindRoutes(provider.routes, controller)
   done()
 })
 

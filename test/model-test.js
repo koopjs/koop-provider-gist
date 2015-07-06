@@ -24,7 +24,7 @@ describe('Github Model', function () {
       })
     })
 
-    it('should find the repo and return the data', function (done) {
+    it('should find the repo and return the data (cache)', function (done) {
       gist.checkCache(6178185, [{updated_at: 1234}], {}, function (err, data) {
         should.not.exist(err)
         should.exist(data)
