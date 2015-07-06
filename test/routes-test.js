@@ -4,9 +4,9 @@ var should = require('should')
 var request = require('supertest')
 var koop = require('koop')({})
 var kooplib = require('koop/lib')
+var provider = require('../index.js')
 
 before(function (done) {
-  var provider = require('../index.js')
   var model = new provider.model(kooplib) // eslint-disable-line
   var controller = new provider.controller(model, kooplib.BaseController) // eslint-disable-line
   koop._bindRoutes(provider.routes, controller)

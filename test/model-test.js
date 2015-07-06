@@ -3,11 +3,11 @@
 var should = require('should')
 var koop = require('koop/lib')
 var Model = require('../models/Gist.js')
+var data_dir = __dirname + '/output/'
 var gist
 
 before(function (done) {
   koop.Cache.db = koop.LocalDB
-  var data_dir = __dirname + '/output/'
   koop.Cache.data_dir = data_dir
   gist = new Model(koop)
   done()
