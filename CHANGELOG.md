@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [1.0.1] - 2015-08-12
 
 ### Fixed
 * update Esri Leaflet to stable 1.0.0 release
@@ -22,4 +22,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 0.0.2 - 2014-12-30
 
+[1.0.1]: https://github.com/koopjs/koop-gist/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/koopjs/koop-gist/compare/v0.0.2...v1.0.0
