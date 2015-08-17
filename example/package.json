@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "^4.12.4",
-    "koop": "^2.1.10",
-    "koop-gist": "0.0.2"
+    "koop": "^2.6.0",
+    "koop-gist": "^1.0.1"
   },
   "license": "ISC",
   "main": "index.js",
