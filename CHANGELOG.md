@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * Bump koop & koop-gist to latest versions in `example/package.json`
+* convert tests to [tape](https://github.com/substack/tape)
 
 ## [1.0.1] - 2015-08-12
 
