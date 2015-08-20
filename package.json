@@ -7,15 +7,15 @@
     "url": "https://github.com/koopjs/koop-gist/issues"
   },
   "dependencies": {
-    "ejs": "~1.0.0",
+    "ejs": "^1.0.0",
     "geohub": "0.3.2"
   },
   "devDependencies": {
     "koop": "2.x",
-    "mocha": "^2.2.5",
-    "should": "~3.3.1",
-    "standard": "*",
-    "supertest": "~0.11.0"
+    "standard": "^5.1.0",
+    "supertest": "~0.11.0",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.2.0"
   },
   "homepage": "https://github.com/koopjs/koop-gist",
   "keywords": [
@@ -36,6 +36,6 @@
     "url": "git@github.com:koopjs/koop-gist.git"
   },
   "scripts": {
-    "test": "standard && mocha test/ -t 5000"
+    "test": "standard && tape test/*.js | tap-spec"
   }
 }
