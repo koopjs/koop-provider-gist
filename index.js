@@ -1,8 +1,12 @@
-var provider = {
+var pkg = require('./package')
+var provider = require('koop-provider')
+
+var gist = provider({
   name: 'Gist',
-  model: require('./models/Gist.js'),
+  version: pkg.version,
+  model: require('./model'),
   controller: require('./controller'),
   routes: require('./routes')
-}
+})
 
-module.exports = provider
+module.exports = gist
