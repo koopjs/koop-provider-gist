@@ -9,12 +9,12 @@
   "dependencies": {
     "ejs": "^1.0.0",
     "geohub": "0.3.2",
-    "koop-provider": "^1.0.0-alpha"
+    "koop-provider": "^1.0.0-alpha.2"
   },
   "devDependencies": {
-    "koop": "2.x",
+    "koop": "^2.7.0",
     "standard": "^5.1.0",
-    "supertest": "~0.11.0",
+    "supertest": "^0.11.0",
     "tap-spec": "^4.0.2",
     "tape": "^4.2.0"
   },
