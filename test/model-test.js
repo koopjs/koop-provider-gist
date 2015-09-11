@@ -1,20 +1,16 @@
 var test = require('tape')
 var koop = require('koop/lib')
-var Model = require('../models/Gist.js')
+var createGistModel = require('../model')
 
-koop.config = {
-  data_dir: __dirname + '/output/'
-}
-
-koop.log = new koop.Logger({logfile: './test.log'})
+koop.config = { data_dir: __dirname + '/output/' }
+koop.log = new koop.Logger({})
 koop.Cache = new koop.DataCache(koop)
 koop.Cache.db = koop.LocalDB
 koop.Cache.db.log = koop.log
 
-var gist = new Model(koop)
+var gist = createGistModel(koop)
 
 test('model: when caching a github file', function (t) {
-
   t.test('should find the repo and return the data', function (st) {
     gist.find(6178185, {}, function (err, data) {
       st.error(err, 'does not error')
@@ -32,5 +28,4 @@ test('model: when caching a github file', function (t) {
       st.end()
     })
   })
-
 })
