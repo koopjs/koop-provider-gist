@@ -52,7 +52,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
-    <script type="text/javascript" src="/js/map.js"></script>
+    <script type="text/javascript" src="<%= baseUrl %>/js/map.js"></script>
 
     <div id="map"></div>
       <div class="load-form">
@@ -65,9 +65,10 @@
       function loadGist(){
         var val = document.getElementById('gist').value;
         if ( val ) {
-          location.href = '/gist/' + val + '/preview';
+          location.href = '<%= baseUrl %>/gist/' + val + '/preview';
         }
       }
+
 
       $(function(){
         var mapDom = 'map';

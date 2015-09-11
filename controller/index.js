@@ -16,7 +16,9 @@ var gistController = function (model) {
    * @param {object} res - outgoing response object
    */
   function index (req, res) {
-    res.render(__dirname + '/../views/index')
+    res.render(__dirname + '/../views/index', {
+      baseUrl: req.baseUrl
+    })
   }
 
   /**
@@ -89,7 +91,10 @@ var gistController = function (model) {
    * @param {object} res - outgoing response object
    */
   function preview (req, res) {
-    res.render(__dirname + '/../views/demo', { locals: { id: req.params.id } })
+    res.render(__dirname + '/../views/demo', {
+      baseUrl: req.baseUrl,
+      id: req.params.id
+    })
   }
 
   /**
