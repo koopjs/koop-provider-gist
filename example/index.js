@@ -1,31 +1,29 @@
-var express = require('express')
-var logger = require('morgan')
+var morgan = require('morgan')
 var errorHandler = require('errorhandler')
+var app = require('express')()
 var koop = require('koop')({
-  ghtoken: process.env.KOOP_GHTOKEN || null
+  'ghtoken': process.env.KOOP_GIST_TOKEN
 })
 var gist = require('../')
-var app = express()
 
 koop.register(gist)
 
-app.set('port', process.env.PORT || 3000)
-app.use(koop)
-
-if (app.get('env') === 'development') {
-  app.use(logger('dev'))
-  app.use(errorHandler({ dumpExceptions: true, showStack: true }))
-}
+app.set('port', process.env.PORT || 1337)
+app.set('json spaces', 2)
 
 if (app.get('env') === 'production') {
-  app.use(logger())
+  app.use(morgan())
+} else {
+  app.use(morgan('dev'))
   app.use(errorHandler())
 }
 
+app.use('/koop/', koop)
+
 app.get('/', function (req, res) {
-  res.redirect('/gist')
+  res.redirect('/koop/gist')
 })
 
-app.listen(process.env.PORT || 1337, function () {
-  console.log('Koop server listening at %d', this.address().port)
+app.listen(app.get('port'), function () {
+  console.log('koop-gist example server listening at %d', this.address().port)
 })

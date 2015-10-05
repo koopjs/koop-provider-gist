@@ -24,35 +24,46 @@ npm install koop-gist --save
 
 ## Usage
 
-Make sure your koop configuration includes a `ghtoken` key if you need to access private gists.
+Make sure your koop configuration includes a github access token (`ghtoken` in the config object passed to koop or `KOOP_GIST_TOKEN` as an environmental variable). Your Github API requests will be rate limited and you will not have access private gists if you don't include a token.
 
 ```js
-var config = {
-  'ghtoken': 'XXXXXX'
-};
+var koop = require('koop')({
+  'ghtoken': 'XXXXXX' // defaults to `process.env.KOOP_GIST_TOKEN`
+})
+var koopGist = require('koop-gist')
 
-var koop = require('koop')(config);
-var koopGist = require('koop-gist');
+koop.register(koopGist)
 
-koop.register(koopGist);
+var app = require('express')()
 
-var express = require('express');
-var app = express();
-
-app.use(koop);
+app.use(koop)
 
 app.listen(process.env.PORT || 1337, function () {
-  console.log('Koop server listening at %d', this.address().port);
-});
+  console.log('Listening at http://%s:%d/', this.address().address, this.address().port)
+})
 ```
+
+There is an example server in the [`example`](example) directory.
 
 Once `koop-gist` is registered as provider and you've restarted your Koop server, you can preview GeoJSON files in gists using this pattern:
 
-`/gist/{gist id}/preview`
+```
+/gist/{gist id}/preview
+```
 
 so for example:
 
-`/gist/6178185/preview`
+```
+/gist/6178185/preview
+```
+
+## Test
+
+`koop-gist` uses [tape](https://github.com/substack/tape) for testing. It is recommended to create your own Github [access token](https://github.com/settings/tokens) for use during testing to ensure you will not hit Github API rate limits.
+
+```
+KOOP_GIST_TOKEN=XXXXXX npm test
+```
 
 ## Contributing
 

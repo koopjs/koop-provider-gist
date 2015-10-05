@@ -1,5 +1,7 @@
+var debug = require('debug')('koop:gist:model')
 var geohub = require('geohub')
 var provider = require('koop-provider')
+var TABLE_NAME = 'gist'
 
 /**
  * creates new gist model with access to koop instance
@@ -7,29 +9,40 @@ var provider = require('koop-provider')
  * @param {Object} koop - instance of koop app
  */
 function gistModel (koop) {
-  var gist = provider.createModel(koop)
+  var model = provider.model(koop)
 
-  if (!koop.config.ghtoken) {
-    koop.log.warn('No Github token in config for Gist provider. This may cause problems accessing data.')
+  model.config = koop.config
+  model.config.ghtoken = model.config.ghtoken || process.env.KOOP_GITHUB_TOKEN || null
+  model.geohub = geohub
+
+  if (!model.config.ghtoken) {
+    koop.log.warn('[gist provider] No github access token configured. Github API requests may be rate limited.')
   }
 
   /**
-   * method for retrieving gist data by id
-   * checks cache first, then tries to fetch from web source
+   * Method for retrieving gist data by ID.
+   * Checks cache first, then tries to fetch from web source.
    *
-   * @param {string} id
-   * @param {object} options
-   * @param {function} callback
+   * @param {object} options - id (required), query (optional)
+   * @param {function} callback - err, geojson
    */
-  function find (id, options, callback) {
-    // looks for data in the cache first
-    var type = 'Gist'
+  model.find = function (options, callback) {
+    var id = options.id
+    var query = options.query || {}
 
-    koop.Cache.get(type, id, options, function (err, entry) {
-      if (!err) return callback(null, entry)
+    koop.Cache.get(TABLE_NAME, id, query, function (err, entry) {
+      if (!err) {
+        debug('retrieved data from cache', options)
+        return callback(null, entry)
+      }
 
-      geohub.gist({ id: id, token: koop.config.ghtoken }, function (err, geojson) {
-        if (err) return callback(err, null)
+      debug('fetching data from Github API (cache error: %s)', err.message, options)
+
+      geohub.gist({
+        id: id,
+        token: model.config.ghtoken
+      }, function (err, geojson) {
+        if (err) return callback(err)
         if (!geojson.length) geojson = [geojson]
 
         var finalJson = []
@@ -42,47 +55,47 @@ function gistModel (koop) {
         }
 
         geojson.forEach(function (layer, i) {
-          koop.Cache.insert(type, id, layer, i, function (err, success) {
-            if (err) return callback(err, null)
-            if (success) _send(layer)
+          koop.Cache.insert(TABLE_NAME, id, layer, i, function (err, success) {
+            if (err) return callback(err)
+            if (!success) return callback(new Error('insert was unsuccessful'))
+
+            _send(layer)
           })
         })
-
       })
     })
   }
 
   /**
-   * compares the updated_at timestamp on the cached data and the hosted data
-   * this method name is special reserved name that will get called by the cache model
+   * Compares the updated_at timestamp on the cached data and the hosted data.
+   * This method name is a special reserved name that will get called by koop's cache.
+   * TODO: implementation needs to be revised, it's odd to return boolean (false) or object (geojson)
    *
-   * @param {string} id
-   * @param {object} data
-   * @param {object} options
-   * @param {function} callback
+   * @param {object} options - id, data (cached geojson data)
+   * @param {function} callback - err, false || geojson (?)
    */
-  function checkCache (id, data, options, callback) {
-    geohub.gistSha(id, koop.config.ghtoken, function (err, sha) {
-      if (err) return callback(err, null)
+  model.checkCache = function (options, callback) {
+    var id = options.id
+    var data = options.data
+
+    geohub.gistSha({
+      id: id,
+      token: model.config.ghtoken
+    }, function (err, sha) {
+      if (err) return callback(err)
       if (sha === data[0].updated_at) return callback(null, false)
 
       geohub.gist({
         id: id,
-        token: koop.config.ghtoken
+        token: model.config.ghtoken
       }, function (err, geojson) {
-        if (err) return callback(err, null)
+        if (err) return callback(err)
         callback(null, geojson)
       })
     })
   }
 
-  /**
-   * assign public functions to model
-   */
-  gist.find = find
-  gist.checkCache = checkCache
-
-  return gist
+  return model
 }
 
 module.exports = gistModel

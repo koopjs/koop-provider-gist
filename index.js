@@ -2,7 +2,7 @@ var pkg = require('./package')
 var provider = require('koop-provider')
 
 var gist = provider({
-  name: 'Gist',
+  name: 'gist',
   version: pkg.version,
   model: require('./model'),
   controller: require('./controller'),

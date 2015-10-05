@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Fixed
+* **controller**: preview route dependencies work on non-root mountpaths
+* **model**: local cache works (resolved issue from koop upstream)
+* **model**: github access tokens now work as expected
+
+### Changed
+* **provider**: name is now `gist` instead of `Gist`
+* **provider**: `status.version` moved to `version`
+* **controller**: using `koop-provider`'s `ctrl.errorResponse` method for API error responses
+* **model**: simplify `find` method (use options object)
+
+### Added
+* **model**: debug information for github api and koop cache
+* **model**: looks for `KOOP_GIST_TOKEN` environmental variable if `config.ghtoken` isn't specified
+* **controller/routes**: added `rate_limit` route for checking github rate limit status
+* **controller**: support for JSONP callbacks ([`res.jsonp`](http://expressjs.com/api.html#res.jsonp))
+
 ## [1.1.1] - 2015-09-11
 
 ### Fixed
