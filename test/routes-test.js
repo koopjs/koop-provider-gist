@@ -1,17 +1,20 @@
 var test = require('tape')
 var request = require('supertest')
-var koop = require('koop')({})
+var koop = require('koop')({
+  ghtoken: process.env.KOOP_GIST_TOKEN
+})
 var kooplib = require('koop/lib')
 var provider = require('../')
 var model = provider.model(kooplib)
 var controller = provider.controller(model)
+var gistId = 'c82a80ee4c5b91889efe'
 
 koop._bindRoutes(provider.routes, controller)
 
 test('Koop Routes', function (t) {
-  t.test('/gist/6021269', function (st) {
+  t.test('/gist/' + gistId, function (st) {
     request(koop)
-      .get('/gist/6021269')
+      .get('/gist/' + gistId)
       .end(function (err, res) {
         st.error(err, 'does not error')
         st.equal(res.statusCode, 200, 'returns 200')
@@ -19,9 +22,9 @@ test('Koop Routes', function (t) {
       })
   })
 
-  t.test('/gist/6021269/FeatureServer', function (st) {
+  t.test('/gist/' + gistId + '/FeatureServer', function (st) {
     request(koop)
-      .get('/gist/6021269/FeatureServer')
+      .get('/gist/' + gistId + '/FeatureServer')
       .end(function (err, res) {
         st.error(err, 'does not error')
         st.equal(res.statusCode, 200, 'returns 200')
@@ -29,9 +32,9 @@ test('Koop Routes', function (t) {
       })
   })
 
-  t.test('/gist/6021269/FeatureServer/0', function (st) {
+  t.test('/gist/' + gistId + '/FeatureServer/0', function (st) {
     request(koop)
-      .get('/gist/6021269/FeatureServer/0')
+      .get('/gist/' + gistId + '/FeatureServer/0')
       .end(function (err, res) {
         st.error(err, 'does not error')
         st.equal(res.statusCode, 200, 'returns 200')
@@ -39,14 +42,13 @@ test('Koop Routes', function (t) {
       })
   })
 
-  t.test('/gist/6021269/FeatureServer/0/query', function (st) {
+  t.test('/gist/' + gistId + '/FeatureServer/0/query', function (st) {
     request(koop)
-      .get('/gist/6021269/FeatureServer/0/query')
+      .get('/gist/' + gistId + '/FeatureServer/0/query')
       .end(function (err, res) {
         st.error(err, 'does not error')
         st.equal(res.statusCode, 200, 'returns 200')
         st.end()
       })
   })
-
 })
