@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [2.0.0-alpha] - 2015-10-15
 
 ### Fixed
 * **controller**: preview route dependencies work on non-root mountpaths
@@ -53,6 +53,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 0.0.2 - 2014-12-30
 
+[2.0.0-alpha]: https://github.com/koopjs/koop-gist/compare/v1.1.1...v2.0.0-alpha
 [1.1.1]: https://github.com/koopjs/koop-gist/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/koopjs/koop-gist/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/koopjs/koop-gist/compare/v1.0.0...v1.0.1
