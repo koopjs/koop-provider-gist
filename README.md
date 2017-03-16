@@ -1,5 +1,7 @@
 # koop-gist
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/koopjs/koop-gist.svg)](https://greenkeeper.io/)
+
 > Github gist provider for [Koop](https://github.com/esri/koop)
 
 [![npm][npm-image]][npm-url]
