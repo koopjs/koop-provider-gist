@@ -2,6 +2,7 @@ var crypto = require('crypto')
 var provider = require('koop-provider')
 var request = require('request')
 var pkg = require('../package.json')
+var path = require('path')
 
 /**
  * creates new gist controller
@@ -18,7 +19,7 @@ var gistController = function (model) {
    * @param {object} res - outgoing response object
    */
   ctrl.index = function (req, res) {
-    res.render(__dirname + '/../views/index', {
+    res.render(path.join(__dirname, '/../views/index'), {
       baseUrl: req.baseUrl
     })
   }
@@ -30,7 +31,7 @@ var gistController = function (model) {
    * @param {object} res - outgoing response object
    */
   ctrl.preview = function (req, res) {
-    res.render(__dirname + '/../views/demo', {
+    res.render(path.join(__dirname, '/../views/demo'), {
       baseUrl: req.baseUrl,
       id: req.params.id
     })

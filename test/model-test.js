@@ -2,9 +2,10 @@ var test = require('tape')
 var koop = require('koop/lib')
 var createGistModel = require('../model')
 var gistId = 'c82a80ee4c5b91889efe'
+var path = require('path')
 
 koop.config = {
-  data_dir: __dirname + '/output/',
+  data_dir: path.join(__dirname, '/output/'),
   ghtoken: process.env.KOOP_GIST_TOKEN
 }
 koop.log = new koop.Logger({})
