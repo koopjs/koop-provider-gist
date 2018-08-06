@@ -14,7 +14,7 @@
     "request": "^2.65.0"
   },
   "devDependencies": {
-    "koop": "2.12.1",
+    "koop": "3.9.2",
     "standard": "^9.0.1",
     "supertest": "^3.0.0",
     "tap-spec": "^4.0.2",
