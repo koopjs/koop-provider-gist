@@ -16,7 +16,7 @@
   "devDependencies": {
     "koop": "2.12.1",
     "standard": "^9.0.1",
-    "supertest": "^3.0.0",
+    "supertest": "^3.4.0",
     "tap-spec": "^4.0.2",
     "tape": "^4.2.0"
   },
